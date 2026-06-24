@@ -18,7 +18,7 @@ let gameOver = false;
 let objects = [];
 
 let spawnInterval = 1500;
-let fallSpeed = 2;
+let fallSpeed = 5;
 
 let lastSpawn = 0;
 
@@ -82,6 +82,7 @@ function update(deltaTime) {
     if (gameOver) return;
 
     const speedMultiplyer = deltaTime / 16.67;
+    const groundY = player.y + player.height;
 
     if (
         Date.now() - lastSpawn >
@@ -127,8 +128,7 @@ function update(deltaTime) {
 
         // Missed item
         if (
-            obj.y >
-            canvas.height
+            obj.y +obj.height >+ groundY 
         ) {
             gameOver = true;
         }
