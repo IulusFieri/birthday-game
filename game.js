@@ -321,20 +321,6 @@ function draw() {
 
 let lastTime = 0;
 
-function gameLoop(timestamp) {
-
-    const deltaTime = timestamp - lastTime;
-    lastTime = timestamp;
-
-    update(deltaTime);
-
-    draw();
-
-    requestAnimationFrame(gameLoop);
-}
-
-requestAnimationFrame(gameLoop);
-
 function restartGame() {
 
     score = 0;
@@ -349,6 +335,21 @@ function restartGame() {
 
     lastSpawn = Date.now();
 }
+
+
+function gameLoop(timestamp) {
+
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+
+    update(deltaTime);
+
+    draw();
+
+    requestAnimationFrame(gameLoop);
+}
+
+requestAnimationFrame(gameLoop);
 
 window.addEventListener(
     "resize",
