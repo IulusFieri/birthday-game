@@ -18,7 +18,7 @@ let gameOver = false;
 let objects = [];
 
 let spawnInterval = 1500;
-let fallSpeed = 9;
+let fallSpeed = 6;
 
 let lastSpawn = 0;
 
@@ -48,6 +48,22 @@ canvas.addEventListener("touchmove", (e) => {
         e.touches[0].clientX -
         player.width / 2;
 }, { passive: false });
+
+canvas.addEventListener("click", () => {
+
+    if (gameOver) {
+        restartGame();
+    }
+
+});
+
+canvas.addEventListener("touchstart", () => {
+
+    if (gameOver) {
+        restartGame();
+    }
+
+});
 
 // Create falling object
 function spawnObject() {
@@ -277,6 +293,12 @@ function drawGameOver() {
         canvas.height / 2 + 40
     );
 
+    ctx.fillText(
+    "Tap anywhere to play again",
+    canvas.width / 2,
+    canvas.height / 2 + 150
+    );
+
     ctx.font =
         "24px Arial";
 
@@ -312,6 +334,21 @@ function gameLoop(timestamp) {
 }
 
 requestAnimationFrame(gameLoop);
+
+function restartGame() {
+
+    score = 0;
+
+    gameOver = false;
+
+    objects = [];
+
+    fallSpeed = 6;
+
+    spawnInterval = 1500;
+
+    lastSpawn = Date.now();
+}
 
 window.addEventListener(
     "resize",
