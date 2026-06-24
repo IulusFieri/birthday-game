@@ -81,6 +81,8 @@ function update(deltaTime) {
 
     if (gameOver) return;
 
+    const speedMultiplyer = deltaTime / 16.67;
+
     if (
         Date.now() - lastSpawn >
         spawnInterval
@@ -97,7 +99,7 @@ function update(deltaTime) {
 
         let obj = objects[i];
 
-        obj.y += fallSpeed;
+        obj.y += fallSpeed * speedMultiplyer;
 
         // Catch
         if (
@@ -111,7 +113,7 @@ function update(deltaTime) {
             // Difficulty scaling
             if (score % 10 === 0) {
 
-                fallSpeed += 0.5;
+                fallSpeed += 2;
 
                 spawnInterval =
                     Math.max(
@@ -278,11 +280,6 @@ function drawGameOver() {
     ctx.font =
         "24px Arial";
 
-    ctx.fillText(
-        "Thank you for being awesome ❤️",
-        canvas.width / 2,
-        canvas.height / 2 + 100
-    );
 }
 
 function draw() {
@@ -300,18 +297,21 @@ function draw() {
     }
 }
 
-function gameLoop() {
+let lastTime = 0;
 
-    update();
+function gameLoop(timestamp) {
+
+    const deltaTime = timestamp - lastTime;
+    lastTime = timestamp;
+
+    update(deltaTime);
 
     draw();
 
-    requestAnimationFrame(
-        gameLoop
-    );
+    requestAnimationFrame(gameLoop);
 }
 
-gameLoop();
+requestAnimationFrame(gameLoop);
 
 window.addEventListener(
     "resize",
